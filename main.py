@@ -1,6 +1,4 @@
-from customtkinter import CTk
+from app import App
 
-app = CTk()
-app.title("Roteiro de Computação Gráfica")
-app.geometry("1200x600")
+app = App()
 app.mainloop()
