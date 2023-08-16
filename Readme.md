@@ -46,6 +46,7 @@ Espelhamento em relação ao eixo y:
 
 $$
 x' = -x\newline
+
 y' = y
 $$
 
@@ -53,5 +54,6 @@ Espelhamento em relação a ambos os eixos
 
 $$
 x' = -x\newline
+
 y' = -y
 $$
