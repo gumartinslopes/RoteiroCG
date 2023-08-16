@@ -19,15 +19,16 @@ As transformações geométricas permitem alterar a posição, orientação, tam
 
 ### Translação
 A operação de translação é uma transformação geométrica que move todos os pontos de um objeto ou figura em uma determinada direção e distância a partir de um dado vetor. Soma-se a cada coordenada a distância de translação:
+
 $$
-x' = x + t_x \newline
+x' = x + t_x, \space 
 y' = y +t_y
 $$
 
 ### Rotação
-A rotação é o deslocamento circular de um objeto sobre um ponto.Seja $\theta$ o ângulo de rotação, essa operação é definida da seguinte forma no centro do plano cartesiano:
+A rotação é o deslocamento circular de um objeto sobre um ponto.Seja $`\theta`$ o ângulo de rotação, essa operação é definida da seguinte forma no centro do plano cartesiano:
 $$
-x' = x.cos(\theta) - y .sin(\theta) \newline
+x' = x.cos(\theta) - y .sin(\theta), \newline \space
 y' = x.sin(\theta) + y.cos(\theta)
 $$
 
@@ -38,22 +39,20 @@ Também conhecida como reflexão, representa uma das transformações secundári
 Espelhamento em relação ao eixo x:
 
 $$
-x' = x\newline
+x' = x\space, 
 y' = -y
 $$
 
 Espelhamento em relação ao eixo y:
 
 $$
-x' = -x\newline
-
+x' = -x \space
 y' = y
 $$
 
 Espelhamento em relação a ambos os eixos
 
 $$
-x' = -x\newline
-
+x' = -x\space
 y' = -y
 $$
