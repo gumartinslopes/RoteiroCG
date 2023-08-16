@@ -18,3 +18,12 @@ def mirroring(x, y,center, axis):
         return x, -y + 2 * center[1]
     else:
         return -x + 2*center[0], y 
+    
+def scaling(x, y, factor):
+    return x * factor, y * factor
+
+def shear(x, y, factor, axis, center):
+    if axis == "x":
+        return x + factor * y - center[0]//2, y
+    else:
+        return x, y + factor * x - center[1]//2 #+ center[1]//2

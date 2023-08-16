@@ -21,7 +21,7 @@ As transformações geométricas permitem alterar a posição, orientação, tam
 A operação de translação é uma transformação geométrica que move todos os pontos de um objeto ou figura em uma determinada direção e distância a partir de um dado vetor. Soma-se a cada coordenada a distância de translação:
 
 $$
-x' = x + t_x, \space 
+x' = x + t_x, \space\newline 
 y' = y +t_y
 $$
 
@@ -39,20 +39,20 @@ Também conhecida como reflexão, representa uma das transformações secundári
 Espelhamento em relação ao eixo x:
 
 $$
-x' = x\space, 
+x' = x\space, \newline
 y' = -y
 $$
 
 Espelhamento em relação ao eixo y:
 
 $$
-x' = -x \space
+x' = -x \space, \newline
 y' = y
 $$
 
 Espelhamento em relação a ambos os eixos
 
 $$
-x' = -x\space
+x' = -x\space, \newline
 y' = -y
 $$

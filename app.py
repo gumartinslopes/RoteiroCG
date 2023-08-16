@@ -62,26 +62,38 @@ class App(ctk.CTk):
 
         self.clear_btn = ctk.CTkButton(self.btn_frame, text = "Clear", command = self.clear)
         self.save_btn = ctk.CTkButton(self.btn_frame, text="Save", command=self.save)
-        self.color_btn = ctk.CTkButton(self.btn_frame, text = "Color", command = self.change_color)
+        self.color_btn = ctk.CTkButton(self.btn_frame, text = "Select Color", command = self.change_color)
         self.translate_btn = ctk.CTkButton(self.btn_frame, text="Translate", command=self.translate)
         self.rotate_btn = ctk.CTkButton(self.btn_frame, text="Rotate around center", command=self.rotate)
+        self.scale_btn = ctk.CTkButton(self.btn_frame, text="Scale", command=self.scale)
 
         self.mirror_x_btn = ctk.CTkButton(self.btn_frame, text="X Axis Mirroring", command=lambda: self.mirror(axis = "x"))
         self.mirror_y_btn = ctk.CTkButton(self.btn_frame, text="Y Axis Mirroring", command=lambda: self.mirror(axis = 'y'))
         self.mirror_both_btn = ctk.CTkButton(self.btn_frame, text="Both Axis Mirroring", command=lambda: self.mirror(axis = "both"))
+        
+        self.shear_x_btn = ctk.CTkButton(self.btn_frame, text="X Axis Shear", command=lambda: self.shear(axis = "x"))
+        self.shear_y_btn = ctk.CTkButton(self.btn_frame, text="Y Axis Shear", command=lambda: self.shear(axis = 'y'))
 
         self.coords_label = ctk.CTkLabel(master=self.btn_frame, text="Coords: (x, y)")
 
-        self.clear_btn.grid(row = 1, column=0,padx = 20,pady = 20,   sticky=W + E)
-        self.save_btn.grid(row = 1, column=2,padx = 20, pady = 20,sticky=W + E)
-        self.color_btn.grid(row = 1, column=1,padx = 20,pady = 20, sticky=W + E)
         self.translate_btn.grid(row = 0, column=2,padx = 20, pady = 20, sticky=W + E)
         self.rotate_btn.grid(row = 0, column=1,padx = 20, pady = 20, sticky=W + E)
-        self.mirror_x_btn.grid(row = 4, column=0,padx = 20, pady = 20, sticky=W + E)
-        self.mirror_y_btn.grid(row = 4, column=1,padx = 20, pady = 20, sticky=W + E)
-        self.mirror_both_btn.grid(row = 4, column=2,padx = 20, pady = 20, sticky=W + E)
+        self.scale_btn.grid(row = 0, column=0,padx = 20, pady = 20, sticky=W + E)
         
-        self.coords_label.grid(row = 5, column = 0, padx = 20,sticky = S + W)
+        
+        self.mirror_x_btn.grid(row = 1, column=0,padx = 20, pady = 20, sticky=W + E)
+        self.mirror_y_btn.grid(row = 1, column=1,padx = 20, pady = 20, sticky=W + E)
+        self.mirror_both_btn.grid(row = 1, column=2,padx = 20, pady = 20, sticky=W + E)
+        
+        self.shear_x_btn.grid(row = 2, column=0,padx = 20, pady = 20, sticky=W + E)
+        self.shear_y_btn.grid(row = 2, column=2,padx = 20, pady = 20, sticky=W + E)
+        
+        
+        self.clear_btn.grid(row = 3, column=0,padx = 20,pady = 20,   sticky=W + E)
+        self.color_btn.grid(row = 3, column=1,padx = 20,pady = 20, sticky=W + E)
+        self.save_btn.grid(row = 3, column=2,padx = 20, pady = 20,sticky=W + E)
+        
+        self.coords_label.grid(row = 4, column = 0, padx = 20,sticky = S + W)
         
         
     def center_window(self):
@@ -140,20 +152,48 @@ class App(ctk.CTk):
                 outline=point.color, fill=point.color, width = self.brush_width)
             self.point_list.append(Point(new_x, new_y, point.color))
     
-    def mirror(self, axis):
+    def scale(self):
+        scaling_factor = simpledialog.askfloat("Scaling factor", "Insert the scaling factor.")
+        #self.translate(-self.canvas_center[0], -self.canvas_center[1])
         point_list = self.point_list
         self.clear()
         for point in point_list:
-            new_x, new_y = mirroring(point.x, point.y, self.canvas_center, axis)
-            print(f"Old->x:{point.x}, y:{point.y}")
-            print(f"x:{new_x}, y:{new_y}")
+            new_x, new_y = scaling(point.x - self.canvas_center[0], point.y - self.canvas_center[1], scaling_factor)
+            print("")
+            new_x = new_x + self.canvas_center[0]# + CANVAS_WIDTH
+            new_y = new_y + self.canvas_center[1]#+ CANVAS_HEIGHT
             self.cnv.create_rectangle(new_x,new_y,new_x,new_y, 
                                     outline=point.color, fill = point.color, width=self.brush_width)
             self.draw.rectangle(
                 [new_x, new_y, new_x + self.brush_width, new_y + self.brush_width],
                 outline=point.color, fill=point.color, width = self.brush_width)
             self.point_list.append(Point(new_x, new_y, point.color))
-            
+
+    def mirror(self, axis):
+        point_list = self.point_list
+        self.clear()
+        for point in point_list:
+            new_x, new_y = mirroring(point.x, point.y, self.canvas_center, axis)
+            self.cnv.create_rectangle(new_x,new_y,new_x,new_y, 
+                                    outline=point.color, fill = point.color, width=self.brush_width)
+            self.draw.rectangle(
+                [new_x, new_y, new_x + self.brush_width, new_y + self.brush_width],
+                outline=point.color, fill=point.color, width = self.brush_width)
+            self.point_list.append(Point(new_x, new_y, point.color))
+    
+    def shear(self, axis):
+        shear_factor = simpledialog.askfloat("Shear factor", "Insert the shear factor.")
+        point_list = self.point_list
+        self.clear()
+        for point in point_list:
+            new_x, new_y = shear(point.x, point.y,shear_factor, axis,  self.canvas_center)
+            self.cnv.create_rectangle(new_x,new_y,new_x,new_y, 
+                                    outline=point.color, fill = point.color, width=self.brush_width)
+            self.draw.rectangle(
+                [new_x, new_y, new_x + self.brush_width, new_y + self.brush_width],
+                outline=point.color, fill=point.color, width = self.brush_width)
+            self.point_list.append(Point(new_x, new_y, point.color))
+    
     def save(self):
         filename = filedialog.asksaveasfilename(initialfile="untitled.png", defaultextension="png")
         if filename != "":
@@ -167,5 +207,3 @@ class App(ctk.CTk):
 
     def change_color(self):
         _, self.current_color = colorchooser.askcolor(title="Choose a color")
-app = App()
-app.mainloop()
